@@ -1,0 +1,63 @@
+{
+  "name": "leaflet.maskhalo",
+  "version": "0.1.0",
+  "description": "A Leaflet plugin for creating halo effects around GeoJSON features with masking capabilities",
+  "main": "dist/index.cjs",
+  "module": "dist/index.esm.js",
+  "type": "module",
+  "exports": {
+    ".": {
+      "import": "./dist/index.esm.js",
+      "require": "./dist/index.cjs",
+      "types": "./dist/index.d.ts"
+    }
+  },
+  "files": [
+    "dist",
+    "license",
+    "README.md",
+    "package.json"
+  ],
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "build": "tsc && rollup -c rollup.config.js"
+  },
+  "keywords": [
+    "leaflet",
+    "halo",
+    "mask",
+    "geojson",
+    "map",
+    "gis",
+    "visualization"
+  ],
+  "author": {
+    "name": "hboot",
+    "email": "bobolity@163.com"
+  },
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": " https://github.com/ngd-b/leaflet.maskhalo.git"
+  },
+  "bugs": {
+    "url": "https://github.com/ngd-b/leaflet-maskhalo/issues"
+  },
+  "homepage": "https://github.com/ngd-b/leaflet-maskhalo#readme",
+  "devDependencies": {
+    "@rollup/plugin-terser": "^0.4.4",
+    "@rollup/plugin-typescript": "^12.1.4",
+    "@turf/turf": "^7.2.0",
+    "@types/geojson": "^7946.0.16",
+    "@types/leaflet": "^1.9.20",
+    "@types/node": "^24.2.0",
+    "leaflet": "^1.9.0",
+    "rollup": "^4.46.2",
+    "typescript": "^5.9.2"
+  },
+  "dependencies": {},
+  "peerDependencies": {
+    "leaflet": "^1.9.0",
+    "@turf/turf": "^7.2.0"
+  }
+}
