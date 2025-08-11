@@ -1,13 +1,6 @@
 // src/index.ts
 import * as L from "leaflet";
-import {
-  polygon,
-  multiPolygon,
-  difference,
-  featureCollection,
-  feature,
-  union,
-} from "@turf/turf";
+import { polygon, difference, featureCollection, feature } from "@turf/turf";
 import type {
   Feature,
   Polygon,
@@ -90,7 +83,7 @@ export class MaskHalo {
     }
     this._halo = L.geoJSON(data, { style: { ...this._options.halo } });
 
-    const mask = difference(featureCollection([world, union(collection)!]));
+    const mask = difference(featureCollection([world, ...collection.features]));
 
     this._mask = L.geoJSON(mask, {
       style: {
