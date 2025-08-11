@@ -1,9 +1,6 @@
 import { defineConfig } from "rollup";
 import terser from "@rollup/plugin-terser";
 import typescript from "@rollup/plugin-typescript";
-// import html from "@rollup/plugin-html";
-// import { readFileSync } from "fs";
-// import copy from "rollup-plugin-copy";
 
 export default defineConfig({
   input: "src/index.ts",
@@ -26,24 +23,5 @@ export default defineConfig({
     },
   ],
   external: ["leaflet", "@turf/turf"],
-  plugins: [
-    typescript(),
-    terser(),
-    // html({
-    //   title: "Leaflet.MaskHalo Example",
-    //   template: ({ attributes, bundle, files, publicPath, title }) => {
-    //     const template = readFileSync("example/index.html", "utf-8");
-
-    //     return template;
-    //   },
-    // }),
-    // copy({
-    //   targets: [
-    //     {
-    //       src: "dist",
-    //       dest: "example",
-    //     },
-    //   ],
-    // }),
-  ],
+  plugins: [typescript(), terser()],
 });

@@ -1,4 +1,8 @@
+
 # Leaflet MaskHalo
+
+[![npm version](https://img.shields.io/npm/v/leaflet.maskhalo.svg)](https://www.npmjs.com/package/leaflet.maskhalo)
+[![License](https://img.shields.io/npm/l/leaflet.maskhalo.svg)](LICENSE)
 
 Leaflet MaskHalo is a plugin for creating halo effects around GeoJSON features on a Leaflet map. It adds a mask that darkens the area outside the specified GeoJSON features and highlights the features with a customizable "halo" effect.
 

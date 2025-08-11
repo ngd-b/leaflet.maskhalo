@@ -47,6 +47,7 @@
   },
   "homepage": "https://github.com/ngd-b/leaflet-maskhalo#readme",
   "packageManager": "pnpm@10.4.1",
+  "license": "MIT",
   "devDependencies": {
     "@rollup/plugin-html": "^2.0.0",
     "@rollup/plugin-terser": "^0.4.4",
