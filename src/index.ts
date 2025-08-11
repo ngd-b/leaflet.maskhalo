@@ -1,6 +1,13 @@
 // src/index.ts
 import * as L from "leaflet";
-import * as turf from "@turf/turf";
+import {
+  polygon,
+  multiPolygon,
+  difference,
+  featureCollection,
+  feature,
+  union,
+} from "@turf/turf";
 import type {
   Feature,
   Polygon,
@@ -8,7 +15,7 @@ import type {
   FeatureCollection,
 } from "geojson";
 
-const world: Feature<Polygon> = turf.polygon([
+const world: Feature<Polygon> = polygon([
   [
     [-180, -90],
     [180, -90],
@@ -43,12 +50,47 @@ export class MaskHalo {
       },
     };
   }
-  addHalo(data: FeatureCollection<Polygon | MultiPolygon>): void {
+  addHalo(
+    data:
+      | FeatureCollection<Polygon | MultiPolygon>
+      | Feature<Polygon | MultiPolygon>
+      | Feature<Polygon | MultiPolygon>[]
+      | Polygon
+      | MultiPolygon
+      | Polygon[]
+      | MultiPolygon[]
+  ): void {
+    let collection = featureCollection<Polygon | MultiPolygon>([]);
+    if (Array.isArray(data)) {
+      for (const item of data) {
+        if (item.type == "Feature") {
+          collection.features.push(item);
+        } else {
+          collection.features.push(feature(item));
+        }
+      }
+    } else {
+      switch (data.type) {
+        case "FeatureCollection":
+          collection = data;
+          break;
+        case "Feature":
+          collection = featureCollection([data]);
+          break;
+        case "Polygon":
+          collection = featureCollection([feature(data)]);
+          break;
+        case "MultiPolygon":
+          collection = featureCollection([feature(data)]);
+          break;
+      }
+    }
+    if (collection.features.length < 1) {
+      throw new Error("【leaflet.maskhalo】invalid data.");
+    }
     this._halo = L.geoJSON(data, { style: { ...this._options.halo } });
 
-    const mask = turf.difference(
-      turf.featureCollection([world, ...data.features])
-    );
+    const mask = difference(featureCollection([world, union(collection)!]));
 
     this._mask = L.geoJSON(mask, {
       style: {
@@ -62,9 +104,11 @@ export class MaskHalo {
   remove(): void {
     if (this._halo) {
       this._halo.remove();
+      this._halo = null;
     }
     if (this._mask) {
       this._mask.remove();
+      this._mask = null;
     }
   }
 }
