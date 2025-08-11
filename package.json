@@ -22,7 +22,7 @@
     "test": "echo \"Error: no test specified\" && exit 1",
     "build": "tsc && rollup -c rollup.config.js",
     "release": "bumpp",
-    "publish": "tsx scripts/publish.ts"
+    "publish:npm": "tsx scripts/publish.ts"
   },
   "keywords": [
     "leaflet",
