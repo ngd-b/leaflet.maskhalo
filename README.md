@@ -131,6 +131,13 @@ Creates a new MaskHalo instance.
 Adds a halo effect for the specified GeoJSON data.
 
 - `data` (GeoJSON object or array): The GeoJSON feature(s) to highlight.
+  
+  support multiple types of geoJson data.
+
+  - `Polygon | Polygon[]`: A object polygon or array of polygon.
+  - `MultiPolygon | MultiPolygon[]`: A object multi-polygon or array of multi-polygon.
+  - `FeatureCollection<Polygon | MultiPolygon>`: A collection of polygons or multi-polygons.
+  - `Feature<Polygon | MultiPolygon>| Feature<Polygon | MultiPolygon>[]`: A feature polygon or multi-polygon or an array of feature polygon or multi-polygon.
 
 ### `maskHalo.remove()`
 

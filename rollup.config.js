@@ -3,7 +3,7 @@ import terser from "@rollup/plugin-terser";
 import typescript from "@rollup/plugin-typescript";
 // import html from "@rollup/plugin-html";
 // import { readFileSync } from "fs";
-import copy from "rollup-plugin-copy";
+// import copy from "rollup-plugin-copy";
 
 export default defineConfig({
   input: "src/index.ts",
@@ -37,13 +37,13 @@ export default defineConfig({
     //     return template;
     //   },
     // }),
-    copy({
-      targets: [
-        {
-          src: "dist",
-          dest: "example",
-        },
-      ],
-    }),
+    // copy({
+    //   targets: [
+    //     {
+    //       src: "dist",
+    //       dest: "example",
+    //     },
+    //   ],
+    // }),
   ],
 });
