@@ -51,10 +51,6 @@ jobs:
       - name: Build all packages
         run: pnpm run build
 
-      - name: Build with VitePress
-        working-directory: docs
-        run: pnpm run build # 或 pnpm docs:build / yarn docs:build / bun run docs:build
-
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v3
         with:
