@@ -106,6 +106,11 @@ export class MaskHalo {
   }
 }
 
+// 工厂函数：小写，返回实例
+export function maskHalo(map: L.Map, options?: L.MaskHaloOptions): L.MaskHalo {
+  return new MaskHalo(map, options);
+}
+
 // 使用 Leaflet 的插件机制
 L.Map.addInitHook(function (this: L.Map) {
   // @ts-ignore
