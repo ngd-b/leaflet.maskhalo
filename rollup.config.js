@@ -31,7 +31,7 @@ export default defineConfig({
     html({
       title: "Leaflet.MaskHalo Example",
       template: ({ attributes, bundle, files, publicPath, title }) => {
-        const template = readFileSync("public/index.html", "utf-8");
+        const template = readFileSync("example/index.html", "utf-8");
 
         return template;
       },
