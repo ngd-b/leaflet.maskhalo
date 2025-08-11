@@ -1,6 +1,6 @@
 {
   "name": "leaflet.maskhalo",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "A Leaflet plugin for creating halo effects around GeoJSON features with masking capabilities",
   "main": "dist/index.umd.js",
   "module": "dist/index.esm.js",
@@ -47,6 +47,7 @@
     "url": "https://github.com/ngd-b/leaflet-maskhalo/issues"
   },
   "homepage": "https://github.com/ngd-b/leaflet-maskhalo#readme",
+  "packageManager": "pnpm@10.4.1",
   "devDependencies": {
     "@rollup/plugin-html": "^2.0.0",
     "@rollup/plugin-terser": "^0.4.4",
