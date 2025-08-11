@@ -2,7 +2,7 @@
 
 Leaflet MaskHalo is a plugin for creating halo effects around GeoJSON features on a Leaflet map. It adds a mask that darkens the area outside the specified GeoJSON features and highlights the features with a customizable "halo" effect.
 
-![Leaflet MaskHalo Demo](#) <!-- Replace with actual demo image/gif when available -->
+![Leaflet MaskHalo Demo](./example/example.png) <!-- Replace with actual demo image/gif when available -->
 
 ## Features
 
@@ -14,19 +14,19 @@ Leaflet MaskHalo is a plugin for creating halo effects around GeoJSON features o
 
 ## Installation
 
-### Using npm:
+### Using npm
 
 ```bash
 npm install leaflet.maskhalo
 ```
 
-### Using yarn:
+### Using yarn
 
 ```bash
 yarn add leaflet.maskhalo
 ```
 
-### Using pnpm:
+### Using pnpm
 
 ```bash
 pnpm add leaflet.maskhalo
@@ -64,19 +64,28 @@ const map = L.map('map').setView([51.505, -0.09], 13);
 L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png').addTo(map);
 
 // Sample GeoJSON data
-const geojsonData = {
-  "type": "Feature",
-  "properties": {},
-  "geometry": {
-    "type": "Polygon",
-    "coordinates": [[
-      [-0.1, 51.5],
-      [-0.1, 51.6],
-      [0.1, 51.6],
-      [0.1, 51.5],
-      [-0.1, 51.5]
-    ]]
-  }
+const geojsonData =  {
+  type: "FeatureCollection",
+  features: [
+    {
+      "type": "Feature",
+      "properties": {},
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [[
+          [117.223901, 40.375538],
+          [117.226661, 40.378558],
+          [117.229045, 40.386843],
+          [117.235382, 40.389556],
+          [117.23695, 40.394078],
+          [117.240694, 40.394417],
+          [117.240484, 40.39763],
+          //...
+          [117.223901, 40.375538]
+        ]]
+      }
+    }
+  ]
 };
 
 // Add MaskHalo to the map

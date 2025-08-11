@@ -1,9 +1,14 @@
 // src/index.ts
 import * as L from "leaflet";
 import * as turf from "@turf/turf";
-import type { GeoJsonObject, Feature, Polygon, MultiPolygon } from "geojson";
+import type {
+  Feature,
+  Polygon,
+  MultiPolygon,
+  FeatureCollection,
+} from "geojson";
 
-const world = turf.polygon([
+const world: Feature<Polygon> = turf.polygon([
   [
     [-180, -90],
     [180, -90],
@@ -38,17 +43,12 @@ export class MaskHalo {
       },
     };
   }
-  addHalo(data: GeoJsonObject | GeoJsonObject[]): void {
+  addHalo(data: FeatureCollection<Polygon | MultiPolygon>): void {
     this._halo = L.geoJSON(data, { style: { ...this._options.halo } });
 
-    // Convert data to Feature type that turf can work with
-    const features = Array.isArray(data) ? data : [data];
-    const polygonFeatures = features.map(feature => {
-      // 将 GeoJsonObject 转换为 Polygon 或 MultiPolygon 类型的 Feature
-      return turf.feature(feature as any) as Feature<Polygon | MultiPolygon>;
-    });
-
-    const mask = turf.difference(turf.featureCollection([world as any, ...polygonFeatures]));
+    const mask = turf.difference(
+      turf.featureCollection([world, ...data.features])
+    );
 
     this._mask = L.geoJSON(mask, {
       style: {
@@ -66,13 +66,6 @@ export class MaskHalo {
     if (this._mask) {
       this._mask.remove();
     }
-  }
-}
-
-// 正确扩展 Leaflet 命名空间
-declare module "leaflet" {
-  interface Map {
-    maskHalo(options?: L.MaskHaloOptions): L.MaskHalo;
   }
 }
 
