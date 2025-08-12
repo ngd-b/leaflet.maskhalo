@@ -1,11 +1,12 @@
 // src/index.ts
 import * as L from "leaflet";
 import { polygon, difference, featureCollection, feature } from "@turf/turf";
+import "./leaflet.maskhalo";
 import type {
   Feature,
-  Polygon,
-  MultiPolygon,
   FeatureCollection,
+  MultiPolygon,
+  Polygon,
 } from "geojson";
 
 const world: Feature<Polygon> = polygon([

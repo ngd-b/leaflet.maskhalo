@@ -2,14 +2,14 @@
   "name": "leaflet.maskhalo",
   "version": "0.1.9",
   "description": "A Leaflet plugin for creating halo effects around GeoJSON features with masking capabilities",
-  "main": "dist/index.umd.js",
-  "module": "dist/index.esm.js",
+  "main": "dist/leaflet.maskhalo.umd.js",
+  "module": "dist/leaflet.maskhalo.esm.js",
   "type": "module",
   "exports": {
     ".": {
-      "import": "./dist/index.esm.js",
-      "require": "./dist/index.umd.js",
-      "types": "./dist/index.d.ts"
+      "import": "./dist/leaflet.maskhalo.esm.js",
+      "require": "./dist/leaflet.maskhalo.umd.js",
+      "types": "./dist/leaflet.maskhalo.d.ts"
     }
   },
   "files": [
@@ -20,7 +20,7 @@
   ],
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "build": "tsc && rollup -c rollup.config.js",
+    "build": "tsc --noEmit & rollup -c rollup.config.js",
     "release": "bumpp",
     "publish:npm": "tsx scripts/publish.ts"
   },
@@ -37,7 +37,6 @@
     "name": "hboot",
     "email": "bobolity@163.com"
   },
-  "license": "MIT",
   "repository": {
     "type": "git",
     "url": " https://github.com/ngd-b/leaflet.maskhalo.git"
@@ -59,6 +58,7 @@
     "leaflet": "^1.9.4",
     "rollup": "^4.46.2",
     "rollup-plugin-copy": "^3.5.0",
+    "rollup-plugin-dts": "^6.2.1",
     "tsx": "^4.20.3",
     "typescript": "^5.9.2"
   },
