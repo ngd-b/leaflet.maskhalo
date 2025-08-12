@@ -1488,7 +1488,8 @@
       ];
 
       // 创建 MaskHalo 实例
-      const maskHalo = map.maskHalo({
+      // const maskHalo = map.maskHalo({
+      const maskHalo = L.maskHalo(map, {
         mask: {
           fillColor: "#000",
           fillOpacity: 0.4,
