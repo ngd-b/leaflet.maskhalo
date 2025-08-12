@@ -119,3 +119,8 @@ L.Map.addInitHook(function (this: L.Map) {
     return new MaskHalo(this, options);
   };
 });
+
+if (typeof window !== "undefined" && window.L) {
+  window.L.MaskHalo = MaskHalo;
+  window.L.maskHalo = maskHalo;
+}
