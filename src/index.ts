@@ -18,6 +18,33 @@ import type {
 const WORD_BBOX: BBox = [-180, -85.05112877980659, 180, 85.05112877980659];
 const world: Feature<Polygon> = bboxPolygon(WORD_BBOX);
 
+/**
+ * Leaflet MaskHalo
+ * @class
+ * @param {L.Map} map - Leaflet map instance
+ * @param {Object} options - Leaflet MaskHalo options
+ *
+ * @example
+ *
+ * ```
+ * import L from "leaflet";
+ * import "leaflet.maskhalo";
+ * 
+ * const maskHalo = L.maskHalo(map, {
+    mask: {
+      fillColor: "#000",
+        fillOpacity: 0.4,
+      },
+      halo: {
+        color: "#165DFF",
+        weight: 3,
+      },
+    });
+ *
+ * // 移除当前的
+ * maskHalo.remove()
+ * ```
+ */
 export class MaskHalo {
   private _map: L.Map;
   private _options: Required<L.MaskHaloOptions>;
@@ -43,6 +70,12 @@ export class MaskHalo {
       },
     };
   }
+  /**
+   * Add halo to the map
+   *
+   * @param data GeoJSON data
+   *
+   */
   addHalo(
     data:
       | FeatureCollection<Polygon | MultiPolygon>
@@ -106,6 +139,10 @@ export class MaskHalo {
     this._mask.addTo(this._map);
     this._halo.addTo(this._map);
   }
+  /**
+   * Remove the mask layer.
+   *
+   */
   remove(): void {
     if (this._halo) {
       this._halo.remove();
