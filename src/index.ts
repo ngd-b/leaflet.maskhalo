@@ -54,19 +54,23 @@ export class MaskHalo {
       | Polygon[]
       | MultiPolygon[]
   ): void {
+    this.remove();
     let collection = featureCollection<Polygon | MultiPolygon>([]);
     if (Array.isArray(data)) {
       for (const item of data) {
         if (item.type == "Feature") {
           collection.features.push(item);
-        } else {
+        } else if (["Polygon", "MultiPolygon"].includes(item.type)) {
           collection.features.push(feature(item));
         }
       }
     } else {
       switch (data.type) {
         case "FeatureCollection":
-          collection = data;
+          const features = data.features.filter((item) =>
+            ["Polygon", "MultiPolygon"].includes(item.geometry.type)
+          );
+          collection = featureCollection(features);
           break;
         case "Feature":
           collection = featureCollection([data]);
