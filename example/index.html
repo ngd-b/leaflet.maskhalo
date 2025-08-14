@@ -1489,7 +1489,7 @@
 
       // 创建 MaskHalo 实例
       // const maskHalo = map.maskHalo({
-      const maskHalo = L.maskHalo(map, {
+      const maskHalo = L.maskHalo([], {
         mask: {
           fillColor: "#000",
           fillOpacity: 0.4,
@@ -1499,21 +1499,21 @@
           weight: 3,
         },
       });
-
+      maskHalo.addTo(map);
       // 获取按钮元素
       const addButton = document.getElementById("addHalo");
       const removeButton = document.getElementById("removeHalo");
 
       // 添加光环效果
       addButton.addEventListener("click", () => {
-        maskHalo.addHalo(geojsonData);
+        maskHalo.setHalo(geojsonData);
         addButton.disabled = true;
         removeButton.disabled = false;
       });
 
       // 移除光环效果
       removeButton.addEventListener("click", () => {
-        maskHalo.remove();
+        maskHalo.clearLayers();
         addButton.disabled = false;
         removeButton.disabled = true;
       });
