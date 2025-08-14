@@ -1,23 +1,22 @@
 // src/index.ts
 import * as L from "leaflet";
-import { polygon, difference, featureCollection, feature } from "@turf/turf";
+import {
+  difference,
+  featureCollection,
+  feature,
+  bboxPolygon,
+} from "@turf/turf";
 import "./leaflet.maskhalo";
 import type {
+  BBox,
   Feature,
   FeatureCollection,
   MultiPolygon,
   Polygon,
 } from "geojson";
 
-const world: Feature<Polygon> = polygon([
-  [
-    [-180, -90],
-    [180, -90],
-    [180, 90],
-    [-180, 90],
-    [-180, -90],
-  ],
-]);
+const WORD_BBOX: BBox = [-180, -85.05112877980659, 180, 85.05112877980659];
+const world: Feature<Polygon> = bboxPolygon(WORD_BBOX);
 
 export class MaskHalo {
   private _map: L.Map;
@@ -59,7 +58,9 @@ export class MaskHalo {
     if (Array.isArray(data)) {
       for (const item of data) {
         if (item.type == "Feature") {
-          collection.features.push(item);
+          if (["Polygon", "MultiPolygon"].includes(item.geometry.type)) {
+            collection.features.push(item);
+          }
         } else if (["Polygon", "MultiPolygon"].includes(item.type)) {
           collection.features.push(feature(item));
         }
@@ -73,23 +74,29 @@ export class MaskHalo {
           collection = featureCollection(features);
           break;
         case "Feature":
-          collection = featureCollection([data]);
+          if (["Polygon", "MultiPolygon"].includes(data.geometry.type)) {
+            collection = featureCollection([data]);
+          }
           break;
         case "Polygon":
-          collection = featureCollection([feature(data)]);
-          break;
         case "MultiPolygon":
           collection = featureCollection([feature(data)]);
           break;
+        default:
       }
     }
     if (collection.features.length < 1) {
-      throw new Error("【leaflet.maskhalo】invalid data.");
+      throw new Error("【leaflet.maskhalo】 No valid polygon data to show.");
     }
-    this._halo = L.geoJSON(data, { style: { ...this._options.halo } });
+    this._halo = L.geoJSON(collection, { style: { ...this._options.halo } });
 
     const mask = difference(featureCollection([world, ...collection.features]));
 
+    if (!mask) {
+      throw new Error(
+        "【leaflet.maskhalo】 Mask computation failed. Please check geometry data. "
+      );
+    }
     this._mask = L.geoJSON(mask, {
       style: {
         ...this._options.mask,
