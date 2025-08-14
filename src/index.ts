@@ -30,7 +30,7 @@ const world: Feature<Polygon> = bboxPolygon(WORD_BBOX);
  * import L from "leaflet";
  * import "leaflet.maskhalo";
  * 
- * const maskHalo = L.maskHalo(map, {
+ * const maskHalo = L.maskHalo(data, {
     mask: {
       fillColor: "#000",
         fillOpacity: 0.4,
@@ -40,19 +40,23 @@ const world: Feature<Polygon> = bboxPolygon(WORD_BBOX);
         weight: 3,
       },
     });
- *
+ *  
+ * maskHalo.addTo(map);
+ * 
+ * // 清除
+ * maskHalo.clearLayers()
  * // 移除当前的
  * maskHalo.remove()
  * ```
  */
-export class MaskHalo {
-  private _map: L.Map;
+export class MaskHalo extends L.FeatureGroup {
   private _options: Required<L.MaskHaloOptions>;
   private _halo: L.GeoJSON | null = null;
   private _mask: L.GeoJSON | null = null;
 
-  constructor(map: L.Map, options?: L.MaskHaloOptions) {
-    this._map = map;
+  constructor(data: L.HaloData, options?: L.MaskHaloOptions) {
+    super();
+
     this._options = {
       mask: {
         color: "transparent",
@@ -69,6 +73,8 @@ export class MaskHalo {
         ...options?.halo,
       },
     };
+
+    this._createLayers(data);
   }
   /**
    * Add halo to the map
@@ -76,17 +82,7 @@ export class MaskHalo {
    * @param data GeoJSON data
    *
    */
-  addHalo(
-    data:
-      | FeatureCollection<Polygon | MultiPolygon>
-      | Feature<Polygon | MultiPolygon>
-      | Feature<Polygon | MultiPolygon>[]
-      | Polygon
-      | MultiPolygon
-      | Polygon[]
-      | MultiPolygon[]
-  ): void {
-    this.remove();
+  _createLayers(data: L.HaloData): void {
     let collection = featureCollection<Polygon | MultiPolygon>([]);
     if (Array.isArray(data)) {
       for (const item of data) {
@@ -119,16 +115,18 @@ export class MaskHalo {
       }
     }
     if (collection.features.length < 1) {
-      throw new Error("【leaflet.maskhalo】 No valid polygon data to show.");
+      console.warn("【leaflet.maskhalo】 No valid polygon data to show.");
+      return;
     }
     this._halo = L.geoJSON(collection, { style: { ...this._options.halo } });
 
     const mask = difference(featureCollection([world, ...collection.features]));
 
     if (!mask) {
-      throw new Error(
+      console.warn(
         "【leaflet.maskhalo】 Mask computation failed. Please check geometry data. "
       );
+      return;
     }
     this._mask = L.geoJSON(mask, {
       style: {
@@ -136,35 +134,36 @@ export class MaskHalo {
       },
     });
 
-    this._mask.addTo(this._map);
-    this._halo.addTo(this._map);
+    this.addLayer(this._mask);
+    this.addLayer(this._halo);
   }
   /**
    * Remove the mask layer.
    *
    */
-  remove(): void {
-    if (this._halo) {
-      this._halo.remove();
-      this._halo = null;
-    }
-    if (this._mask) {
-      this._mask.remove();
-      this._mask = null;
-    }
+  setHalo(data: L.HaloData): this {
+    this.clearLayers();
+    this._createLayers(data);
+    return this;
   }
 }
 
 // 工厂函数：小写，返回实例
-export function maskHalo(map: L.Map, options?: L.MaskHaloOptions): L.MaskHalo {
-  return new MaskHalo(map, options);
+export function maskHalo(
+  data: L.HaloData,
+  options?: L.MaskHaloOptions
+): L.MaskHalo {
+  return new MaskHalo(data, options);
 }
 
 // 使用 Leaflet 的插件机制
 L.Map.addInitHook(function (this: L.Map) {
   // @ts-ignore
-  this.maskHalo = (options?: L.MaskHaloOptions): L.MaskHalo => {
-    return new MaskHalo(this, options);
+  this.maskHalo = (
+    data: L.HaloData,
+    options?: L.MaskHaloOptions
+  ): L.MaskHalo => {
+    return new MaskHalo(data, options);
   };
 });
 

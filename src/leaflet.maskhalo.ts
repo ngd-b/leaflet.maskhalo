@@ -1,4 +1,4 @@
-import type { Feature, FeatureCollection } from "geojson";
+import type { Feature, FeatureCollection, MultiPolygon } from "geojson";
 import "leaflet";
 
 declare global {
@@ -6,30 +6,29 @@ declare global {
     L?: typeof L;
   }
   namespace L {
+    type HaloData =
+      | FeatureCollection<GeoJSON.Polygon | GeoJSON.MultiPolygon>
+      | Feature<GeoJSON.Polygon | GeoJSON.MultiPolygon>
+      | Feature<GeoJSON.Polygon | GeoJSON.MultiPolygon>[]
+      | GeoJSON.Polygon
+      | GeoJSON.MultiPolygon
+      | GeoJSON.Polygon[]
+      | GeoJSON.MultiPolygon[];
+
     interface MaskHaloOptions {
       mask?: L.PathOptions;
       halo?: L.PathOptions;
     }
 
     class MaskHalo {
-      constructor(map: L.Map, options?: MaskHaloOptions);
-      addHalo(
-        data:
-          | FeatureCollection<GeoJSON.Polygon | GeoJSON.MultiPolygon>
-          | Feature<GeoJSON.Polygon | GeoJSON.MultiPolygon>
-          | Feature<GeoJSON.Polygon | GeoJSON.MultiPolygon>[]
-          | GeoJSON.Polygon
-          | GeoJSON.MultiPolygon
-          | GeoJSON.Polygon[]
-          | GeoJSON.MultiPolygon[]
-      ): void;
-      remove(): void;
+      constructor(data: HaloData, options?: L.MaskHaloOptions);
+      setHalo(data: HaloData): MaskHalo;
     }
 
     interface Map {
-      maskHalo(options?: MaskHaloOptions): MaskHalo;
+      maskHalo(data: HaloData, options?: MaskHaloOptions): MaskHalo;
     }
 
-    function maskHalo(map: L.Map, options?: MaskHaloOptions): MaskHalo;
+    function maskHalo(data: HaloData, options?: MaskHaloOptions): MaskHalo;
   }
 }
