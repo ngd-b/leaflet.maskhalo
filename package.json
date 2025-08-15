@@ -1,6 +1,6 @@
 {
   "name": "leaflet.maskhalo",
-  "version": "0.2.1",
+  "version": "0.2.2",
   "description": "A Leaflet plugin for creating halo effects around GeoJSON features with masking capabilities",
   "main": "dist/leaflet.maskhalo.umd.js",
   "module": "dist/leaflet.maskhalo.esm.js",
