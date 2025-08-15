@@ -5,6 +5,7 @@
   "main": "dist/leaflet.maskhalo.umd.js",
   "module": "dist/leaflet.maskhalo.esm.js",
   "type": "module",
+  "types": "dist/leaflet.maskhalo.d.ts",
   "exports": {
     ".": {
       "import": "./dist/leaflet.maskhalo.esm.js",
