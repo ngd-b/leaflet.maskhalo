@@ -20,7 +20,7 @@ declare global {
       halo?: L.PathOptions;
     }
 
-    class MaskHalo {
+    class MaskHalo extends L.FeatureGroup {
       constructor(data: HaloData, options?: L.MaskHaloOptions);
       setHalo(data: HaloData): MaskHalo;
     }
